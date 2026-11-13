@@ -18,6 +18,7 @@ DST = Path(OUTPUT_DIR) / "entry.png"
 
 
 def main():
+    # Salin gambar phoenix apa adanya, tanpa perubahan isi apa pun.
     DST.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(SRC, DST)
     data = DST.read_bytes()

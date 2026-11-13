@@ -1,22 +1,21 @@
-# Coolest art — make.fun entry
+# Phoenix Rising — Coolest Art
 
-A majestic phoenix with blazing orange, gold and crimson feathers rising
-from glowing embers, wings spread wide, sparks swirling, against a dark
-nebula sky in deep purple and teal. The entry program copies the image to
-`/output/entry.png`.
+A phoenix rising from the embers, drawn in warm reds, oranges, and gold.
 
-## Files
+This entry pairs the phoenix artwork (`art.jpg`) with a small, deterministic
+program (`main.py`) that copies the artwork to the output directory as
+`entry.png`. Running it twice produces byte-identical output every time.
 
-- `main.py` — the entry program (Python 3.13, standard library only).
-  Copies `art.jpg` to `$MAKEFUN_OUTPUT_DIR/entry.png` (default `/output`).
-- `art.jpg` — the phoenix artwork (JPEG, 1024x1024, 322,133 bytes).
-  The output keeps the name `entry.png`; the format is told apart by its
-  first bytes, as the competition rules allow.
-
-## Run
+## How to run
 
 ```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out python3 main.py
+python3 main.py
 ```
 
-Two runs write byte-identical output (a plain file copy).
+By default the output goes to the standard output directory (`/output`).
+To write somewhere else, set the `MAKEFUN_OUTPUT_DIR` environment variable
+before running, for example:
+
+```sh
+MAKEFUN_OUTPUT_DIR=/tmp/out python3 main.py
+```

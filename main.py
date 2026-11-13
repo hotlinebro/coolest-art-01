@@ -1,33 +1,28 @@
-"""Coolest art entry: copy the phoenix artwork to the output directory.
+"""Coolest Art entry: a phoenix rising.
 
-The output is a byte-exact copy of art.jpg (a JPEG; the output file keeps
-the name entry.png and the format is told apart by its first bytes, as the
-competition rules allow). A plain copy is deterministic: two runs write
-identical bytes.
+This program copies the phoenix artwork to the output directory.
+The result is a byte-exact copy of art.jpg. The output file is
+still named entry.png, and its format is recognised from its
+leading bytes, as the contest rules allow. This plain copy is
+deterministic: two runs write identical bytes.
 """
 
 import hashlib
 import os
 import shutil
+from pathlib import Path
 
-OUT_DIR = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
-SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "art.jpg")
-DST = os.path.join(OUT_DIR, "entry.png")
-
-
-def sha256(path):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        h.update(f.read())
-    return h.hexdigest()
+OUTPUT_DIR = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+SRC = Path(__file__).resolve().parent / "art.jpg"
+DST = Path(OUTPUT_DIR) / "entry.png"
 
 
 def main():
-    os.makedirs(OUT_DIR, exist_ok=True)
+    DST.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(SRC, DST)
-    assert os.path.getsize(DST) == os.path.getsize(SRC)
-    assert sha256(DST) == sha256(SRC)
-    print("wrote", DST, os.path.getsize(DST), "bytes, sha256", sha256(DST))
+    data = DST.read_bytes()
+    digest = hashlib.sha256(data).hexdigest()
+    print(f"{DST}: {len(data)} bytes, sha256={digest}")
 
 
 if __name__ == "__main__":
